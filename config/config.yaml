@@ -1,0 +1,11 @@
+# storage parameter
+CrawlerSingle: 'UnityEnvs/Crawler_Linux/Crawler.x86_64'
+
+# training params a2c
+LearningRateA2C: 1e-4
+BatchesSizeA2C: 64
+# training params DDPG
+TauDDPG: 1e-3
+GammaDDPG: 0.99
+LearningRateDDPG: 1e-3
+BatchesSizeDDPG: 1024
