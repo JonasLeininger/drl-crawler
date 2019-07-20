@@ -2,6 +2,7 @@ import numpy as np
 
 from config.config import Config
 
+
 def main():
     config = Config()
     print_env_information(config)
@@ -21,8 +22,8 @@ def print_env_information(config):
 
 
 def run_random_env(config):
-    env_info = config.env.reset(train_mode=False)[config.brain_name]
-    states = env_info.vector_observations
+    # env_info = config.env.reset(train_mode=False)[config.brain_name]
+    # states = env_info.vector_observations
     scores = np.zeros(config.num_agents)
     steps = 0
     # for t in range(steps):
@@ -31,17 +32,17 @@ def run_random_env(config):
         actions = np.random.randn(config.num_agents, config.action_dim)
         actions = np.clip(actions, -1, 1)
         env_info = config.env.step(actions)[config.brain_name]
-        next_states = env_info.vector_observations
-        rewards = env_info.rewards
+        # next_states = env_info.vector_observations
+        # rewards = env_info.rewards
         dones = env_info.local_done
         scores += env_info.rewards
         # replay.add(states, actions, rewards, next_states, dones)
-        states = next_states
+        # states = next_states
         if np.any(dones):
             print('done after {} steps'.format(steps))
             break
     print('Total score (averaged over agents) this episode: {}'.format(np.mean(scores)))
 
 
-if __name__=='__main__':
+if __name__ == '__main__':
     main()

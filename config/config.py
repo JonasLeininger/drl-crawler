@@ -6,6 +6,7 @@ class Config:
 
     def __init__(self):
         self.device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+        self.num_agents = None
         self.config = self.load_config_file()
         self.env = UnityEnvironment(file_name=self.config['CrawlerSingle'])
         self.init_env()
