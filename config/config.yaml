@@ -7,5 +7,5 @@ BatchesSizeA2C: 64
 # training params DDPG
 TauDDPG: 1e-3
 GammaDDPG: 0.99
-LearningRateDDPG: 1e-3
+LearningRateDDPG: 1e-4
 BatchesSizeDDPG: 1024

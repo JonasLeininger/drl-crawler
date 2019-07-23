@@ -1,19 +1,17 @@
 import numpy as np
 
-from config.config import Config
 from replay_buffer import ReplayBuffer
+from config.config import Config
 from agents.ddpg_agent import DDPGAgent
 
 def main():
     config = Config()
     buffer_size = int(1e5)
     replay = ReplayBuffer(buffer_size, 1)
-    agent = DDPGAgent(config)
     print_env_information(config)
     print(config.state_dim)
-    run_random_env(config)
-    train_agent(agent)
-
+    agent = DDPGAgent(config)
+    train_agent(config, agent)
     config.env.close()
 
 
@@ -27,32 +25,28 @@ def print_env_information(config):
     print('The state for the first agent looks like:', config.states[0])
 
 
-def run_random_env(config):
-    # env_info = config.env.reset(train_mode=False)[config.brain_name]
-    # states = env_info.vector_observations
+def run_random_env(config, replay):
+    env_info = config.env.reset(train_mode=False)[config.brain_name]
+    states = env_info.vector_observations
     scores = np.zeros(config.num_agents)
-    steps = 0
-    # for t in range(steps):
-    while True:
-        steps += 1
+    steps = 1000
+    for t in range(steps):
         actions = np.random.randn(config.num_agents, config.action_dim)
         actions = np.clip(actions, -1, 1)
         env_info = config.env.step(actions)[config.brain_name]
-        # next_states = env_info.vector_observations
-        # rewards = env_info.rewards
+        next_states = env_info.vector_observations
+        rewards = env_info.rewards
         dones = env_info.local_done
         scores += env_info.rewards
-        # replay.add(states, actions, rewards, next_states, dones)
-        # states = next_states
+        replay.add(states, actions, rewards, next_states, dones)
+        states = next_states
         if np.any(dones):
-            print('done after {} steps'.format(steps))
             break
     print('Total score (averaged over agents) this episode: {}'.format(np.mean(scores)))
 
-
-def train_agent(agent):
+def train_agent(config, agent):
     agent.run_agent()
 
 
-if __name__ == '__main__':
+if __name__=='__main__':
     main()
